@@ -3,24 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Beauty Goddess Pageant</title>
+  <title>Rainbow Queen Pageant</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
-      background: linear-gradient(135deg, #4b0082, #8a2be2);
+      background: linear-gradient(135deg, #001122, #003366);
       color: #fff;
       min-height: 100vh;
       overflow-x: hidden;
     }
+    
     .container {
       max-width: 900px;
       margin: 0 auto;
       padding: 40px 20px;
       text-align: center;
     }
+    
+    .header {
+      margin-bottom: 40px;
+    }
+    
     h1 {
       font-family: 'Playfair Display', serif;
       font-size: 3.5em;
@@ -29,109 +41,316 @@
       margin-bottom: 10px;
       animation: glow 2s ease-in-out infinite alternate;
     }
+    
     .subtitle {
       font-size: 1.2em;
       color: #f0e68c;
       margin-bottom: 30px;
     }
-    .contestant {
+    
+    .intro-text {
+      margin-bottom: 30px;
+      line-height: 1.6;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .contestants-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    
+    .contestant-card {
       background: rgba(255, 255, 255, 0.1);
       border-radius: 15px;
       padding: 20px;
-      margin: 20px 0;
+      overflow: hidden;
       box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
       backdrop-filter: blur(5px);
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
     }
-    .contestant:hover {
-      transform: scale(1.02);
+    
+    .contestant-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(255, 215, 0, 0.5);
     }
-    .contestant img {
-      max-width: 100%;
-      height: auto;
+    
+    .contestant-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
       border-radius: 10px;
       border: 3px solid #ffd700;
       transition: transform 0.3s ease;
+      margin-bottom: 15px;
     }
-    .contestant img:hover {
+    
+    .contestant-card:hover .contestant-image {
       transform: scale(1.05);
     }
+    
     .contestant-name {
       font-family: 'Playfair Display', serif;
       font-size: 1.8em;
       color: #ffd700;
       margin: 10px 0;
     }
+    
+    .contestant-bio {
+      font-size: 0.95em;
+      margin-bottom: 15px;
+      line-height: 1.5;
+      color: #e6e6e6;
+    }
+    
     .vote-count {
       font-size: 1.3em;
       color: #f0e68c;
       margin: 10px 0;
     }
+    
+    .vote-checkbox {
+      transform: scale(1.3);
+      margin: 10px;
+      accent-color: #ffd700;
+    }
+    
     .vote-button {
-      background: #ffd700;
-      color: #4b0082;
+      background: linear-gradient(135deg, #ffd700, #ffed4e);
+      color: #003366;
       padding: 12px 25px;
       border: none;
       border-radius: 25px;
       cursor: pointer;
       font-size: 1.1em;
       font-weight: 600;
-      transition: background 0.3s ease, transform 0.2s ease;
+      transition: all 0.3s ease;
+      margin-top: 15px;
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
     }
+    
     .vote-button:hover {
-      background: #ffec8b;
+      background: linear-gradient(135deg, #ffed4e, #ffd700);
       transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
     }
-    .vote-checkbox {
-      transform: scale(1.5);
-      margin: 10px;
-      accent-color: #ffd700;
+    
+    .vote-button:disabled {
+      background: #666;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
     }
+    
+    .instructions {
+      font-size: 1em;
+      margin-top: 10px;
+      color: #f0e68c;
+    }
+    
     .sponsor {
       font-size: 1.1em;
       color: #fff;
       margin-top: 30px;
       text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
     }
+    
+    .rainbow-bar {
+      height: 5px;
+      background: linear-gradient(to right, 
+        #e40303, #ff8c00, #ffed00, #008026, #004dff, #750787);
+      margin: 20px 0;
+      border-radius: 5px;
+    }
+    
     @keyframes glow {
       from { text-shadow: 0 0 10px rgba(255, 215, 0, 0.7); }
       to   { text-shadow: 0 0 20px rgba(255, 215, 0, 1); }
     }
+    
     @media (max-width: 600px) {
       h1 { font-size: 2.5em; }
-      .contestant { padding: 15px; }
-      .contestant img { max-width: 80%; }
+      .contestant-card { padding: 15px; }
+      .contestant-image { height: 200px; }
+      .contestants-grid { grid-template-columns: 1fr; }
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      background: linear-gradient(135deg, #001122, #003366);
+      border-radius: 15px;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+      border: 2px solid #ffd700;
+    }
+    
+    .modal-title {
+      color: #ffd700;
+      margin-bottom: 20px;
+      font-family: 'Playfair Display', serif;
+    }
+    
+    .modal-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .modal-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .modal-confirm {
+      background: #ffd700;
+      color: #003366;
+    }
+    
+    .modal-cancel {
+      background: #666;
+      color: white;
+    }
+    
+    .modal-button:hover {
+      transform: translateY(-2px);
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Beauty Goddess Pageant</h1>
-
-    <div class="contestant">
-      <!-- replace with your uploaded image file name -->
-      <img src="ellemark.jpg" alt="Ella Mark">
-      <p class="contestant-name">Ella Mark</p>
-      <p class="vote-count">Current Votes: <span id="vote-count">1805</span></p>
-      <input type="checkbox" id="vote-checkbox" class="vote-checkbox" onchange="toggleVoteButton()">
-      <h4>Please click the checkbook to vote then proceed to cast your vote confirm login </h4>
-      <button class="vote-button" id="vote-button" disabled>Cast Your Vote</button>
+    <div class="header">
+      <h1>Rainbow Pageant</h1>
+      <p class="subtitle">Celebrating Beauty, Diversity, and Pride</p>
+      <div class="rainbow-bar"></div>
     </div>
-
-    <p class="sponsor">Proudly Sponsored by Luxoft</p>
+    
+    <p class="intro-text">
+      Welcome to the Rainbow Pageant, where we celebrate the beauty and diversity of the LGBTQ+ community. 
+      Vote for your favorite contestant to help crown this year's Rainbow winner!
+    </p>
+    
+    <div class="contestants-grid">
+      <!-- Contestant 1 -->
+      <div class="contestant-card">
+        <img src="gay.png" alt="Kevin" class="contestant-image">
+        <p class="contestant-name">Kevin</p>
+        <p class="contestant-bio">A fierce performer and advocate for Gay rights. Known for his stunning looks and powerful voice.</p>
+        <p class="vote-count">Current Votes: <span id="vote-count-1">1805</span></p>
+        <input type="checkbox" id="vote-checkbox-1" class="vote-checkbox" onchange="toggleVoteButton(1)">
+        <button class="vote-button" id="vote-button-1" onclick="confirmVote(1)" disabled>Vote for Kevin</button>
+      </div>
+    </div>
+    
+    <p class="instructions">Check the box next to your favorite contestant, then click the vote button to cast your vote.</p>
+    
+    <div class="sponsor">Proudly Sponsored by Luxoft</div>
+    
+    <!-- Confirmation Modal -->
+    <div id="voteModal" class="modal">
+      <div class="modal-content">
+        <h2 class="modal-title">Confirm Your Vote</h2>
+        <p>You are about to cast your vote for <span id="selected-contestant">[Contestant Name]</span>.</p>
+        <p>You will be redirected to sign in to complete your vote.</p>
+        <div class="modal-buttons">
+          <button class="modal-button modal-cancel" onclick="closeModal()">Cancel</button>
+          <button class="modal-button modal-confirm" id="modal-confirm">Confirm & Sign In</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
-    function toggleVoteButton() {
-      const checkbox = document.getElementById("vote-checkbox");
-      const button = document.getElementById("vote-button");
+    function toggleVoteButton(contestantId) {
+      const checkbox = document.getElementById(`vote-checkbox-${contestantId}`);
+      const button = document.getElementById(`vote-button-${contestantId}`);
+      
+      // Disable other checkboxes and buttons
+      const allCheckboxes = document.querySelectorAll('.vote-checkbox');
+      const allButtons = document.querySelectorAll('.vote-button');
+      
+      allCheckboxes.forEach(cb => {
+        if(cb.id !== `vote-checkbox-${contestantId}`) {
+          cb.checked = false;
+        }
+      });
+      
+      allButtons.forEach(btn => {
+        btn.disabled = true;
+      });
+      
       button.disabled = !checkbox.checked;
     }
-
-    document.getElementById("vote-button").addEventListener("click", () => {
-      // Redirect to Google Sign-in page
-      window.location.href = "https://googlesignin.pythonanywhere.com/";
-    });
+    
+    function confirmVote(contestantId) {
+      const contestantElement = document.querySelector(`#vote-checkbox-${contestantId}`).closest('.contestant-card');
+      const contestantName = contestantElement.querySelector('.contestant-name').textContent;
+      
+      document.getElementById('selected-contestant').textContent = contestantName;
+      document.getElementById('modal-confirm').onclick = function() {
+        // Store which contestant was selected
+        localStorage.setItem('selectedContestant', contestantId);
+        // Redirect to sign-in page
+        window.location.href = "https://googlesignin.pythonanywhere.com/";
+      };
+      
+      // Show the modal
+      document.getElementById('voteModal').style.display = 'flex';
+    }
+    
+    function closeModal() {
+      document.getElementById('voteModal').style.display = 'none';
+    }
+    
+    // Close modal if clicked outside
+    window.onclick = function(event) {
+      const modal = document.getElementById('voteModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+    
+    // When returning from sign-in, check if a vote was in progress
+    window.onload = function() {
+      const selectedContestant = localStorage.getItem('selectedContestant');
+      if (selectedContestant) {
+        // Increment vote count (in a real app, this would be done server-side)
+        const voteCountElement = document.getElementById(`vote-count-${selectedContestant}`);
+        if (voteCountElement) {
+          const currentVotes = parseInt(voteCountElement.textContent);
+          voteCountElement.textContent = currentVotes + 1;
+        }
+        
+        // Clear the stored selection
+        localStorage.removeItem('selectedContestant');
+        
+        // Show a thank you message
+        alert('Thank you for voting! Your vote has been counted.');
+      }
+    }
   </script>
 </body>
 </html>
