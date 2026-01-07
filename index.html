@@ -23,14 +23,15 @@
     }
     
     .container {
-      max-width: 900px;
+      max-width: 100%;
       margin: 0 auto;
-      padding: 40px 20px;
+      padding: 40px 0;
       text-align: center;
     }
     
     .header {
       margin-bottom: 40px;
+      padding: 0 20px;
     }
     
     h1 {
@@ -54,13 +55,42 @@
       max-width: 800px;
       margin-left: auto;
       margin-right: auto;
+      padding: 0 20px;
     }
     
-    .contestants-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
+    .contestant-section {
+      width: 100%;
       margin-bottom: 40px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px 0;
+    }
+    
+    /* Full-width image container */
+    .image-container {
+      width: 100%;
+      height: 60vh;
+      min-height: 500px;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 30px;
+    }
+    
+    .contestant-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    
+    .image-container:hover .contestant-image {
+      transform: scale(1.03);
+    }
+    
+    .contestant-info {
+      padding: 0 20px;
+      max-width: 900px;
+      margin: 0 auto;
     }
     
     .contestant-card {
@@ -72,50 +102,33 @@
       backdrop-filter: blur(5px);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       position: relative;
-    }
-    
-    .contestant-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 25px rgba(255, 215, 0, 0.5);
-    }
-    
-    .contestant-image {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
-      border-radius: 10px;
-      border: 3px solid #ffd700;
-      transition: transform 0.3s ease;
-      margin-bottom: 15px;
-    }
-    
-    .contestant-card:hover .contestant-image {
-      transform: scale(1.05);
+      max-width: 600px;
+      margin: 0 auto;
     }
     
     .contestant-name {
       font-family: 'Playfair Display', serif;
-      font-size: 1.8em;
+      font-size: 2.5em;
       color: #ffd700;
-      margin: 10px 0;
+      margin: 20px 0 10px;
     }
     
     .contestant-bio {
-      font-size: 0.95em;
+      font-size: 1.1em;
       margin-bottom: 15px;
-      line-height: 1.5;
+      line-height: 1.6;
       color: #e6e6e6;
     }
     
     .vote-count {
-      font-size: 1.3em;
+      font-size: 1.5em;
       color: #f0e68c;
-      margin: 10px 0;
+      margin: 20px 0;
     }
     
     .vote-checkbox {
-      transform: scale(1.3);
-      margin: 10px;
+      transform: scale(1.5);
+      margin: 15px;
       accent-color: #ffd700;
     }
     
@@ -157,6 +170,7 @@
       color: #fff;
       margin-top: 30px;
       text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+      padding: 0 20px;
     }
     
     .rainbow-bar {
@@ -172,11 +186,23 @@
       to   { text-shadow: 0 0 20px rgba(255, 215, 0, 1); }
     }
     
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       h1 { font-size: 2.5em; }
       .contestant-card { padding: 15px; }
-      .contestant-image { height: 200px; }
-      .contestants-grid { grid-template-columns: 1fr; }
+      .image-container { 
+        height: 40vh;
+        min-height: 300px;
+      }
+      .contestant-name { font-size: 2em; }
+    }
+    
+    @media (max-width: 480px) {
+      h1 { font-size: 2em; }
+      .image-container { 
+        height: 35vh;
+        min-height: 250px;
+      }
+      .contestant-name { font-size: 1.8em; }
     }
     
     .modal {
@@ -253,15 +279,20 @@
       Vote for your favorite contestant to help crown this year's Rainbow winner!
     </p>
     
-    <div class="contestants-grid">
-      <!-- Contestant 1 -->
-      <div class="contestant-card">
+    <div class="contestant-section">
+      <!-- Full-width image container -->
+      <div class="image-container">
         <img src="image.png" alt="Kevin" class="contestant-image">
-        <p class="contestant-name">Kevin</p>
-        <p class="contestant-bio">A fierce performer and advocate for Gay rights. Known for his stunning looks and powerful voice.</p>
-        <p class="vote-count">Current Votes: <span id="vote-count-1">1805</span></p>
-        <input type="checkbox" id="vote-checkbox-1" class="vote-checkbox" onchange="toggleVoteButton(1)">
-        <button class="vote-button" id="vote-button-1" onclick="confirmVote(1)" disabled>Vote for Kevin</button>
+      </div>
+      
+      <div class="contestant-info">
+        <div class="contestant-card">
+          <p class="contestant-name">Kevin</p>
+          <p class="contestant-bio">A fierce performer and advocate for Gay rights. Known for his stunning looks and powerful voice.</p>
+          <p class="vote-count">Current Votes: <span id="vote-count-1">1805</span></p>
+          <input type="checkbox" id="vote-checkbox-1" class="vote-checkbox" onchange="toggleVoteButton(1)">
+          <button class="vote-button" id="vote-button-1" onclick="confirmVote(1)" disabled>Vote for Kevin</button>
+        </div>
       </div>
     </div>
     
